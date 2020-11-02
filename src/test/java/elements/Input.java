@@ -7,6 +7,7 @@ public class Input {
     WebDriver driver;
     String label;
     String locator = "//*[contains(text(),'%s')]/ancestor::div[contains(@class, 'uiInput')]//input";
+    String optionLocator = "//li//a//div[@title='%s']"; //заменить
 
     public Input(WebDriver driver, String label) {
         this.driver = driver;
@@ -16,6 +17,10 @@ public class Input {
     public void write(String text) {
         System.out.println(String.format("Writing text '%s' into input with label '%s'", text, label));
         driver.findElement(By.xpath(String.format(locator, label))).sendKeys(text);
+    }
+    public void clickAndSelect(String accountName) {
+        driver.findElement(By.xpath(String.format(locator, label))).click();
+        driver.findElement(By.xpath(String.format(optionLocator, accountName))).click();
     }
 
 }

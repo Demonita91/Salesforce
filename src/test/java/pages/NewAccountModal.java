@@ -3,6 +3,7 @@ package pages;
 import elements.DropDown;
 import elements.Input;
 import elements.TextArea;
+import io.qameta.allure.Step;
 import models.Account;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,13 +13,13 @@ public class NewAccountModal {
     public static By SAVE_BUTTON = By.xpath("//button[@title='Save']");
     public static By SAVE_AND_NEW_BUTTON = By.xpath("//button[@title='Save & New']");
     public static By CANCEL_BUTTON = By.xpath("//button[@title='Cancel']");
-    String createdAccount = "//span[text()='%s']";
 
     public NewAccountModal(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void create(Account account) {
+    @Step("Create new Account")
+    public NewAccountModal create(Account account) {
         new Input(driver, "Account Name").write(account.getAccountName());
         new Input(driver, "Website").write(account.getWebsite());
         new Input(driver, "Phone").write(account.getPhone());
@@ -40,8 +41,11 @@ public class NewAccountModal {
         new TextArea(driver, "Description").write(account.getDescription());
         new TextArea(driver, "Billing Street").write(account.getBillingStreet());
         new TextArea(driver, "Shipping Street").write(account.getShippingStreet());
+        return this;
+    }
 
+    public AccountListPage clickButtonSave() {
         driver.findElement(SAVE_BUTTON).click();
-        driver.findElement(By.xpath(String.format(createdAccount, account.getAccountName())));
+        return new AccountListPage(driver);
     }
 }

@@ -1,26 +1,29 @@
 package tests;
 
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import pages.AccountListPage;
-import pages.LoginPage;
-import pages.NewAccountModal;
-import pages.NewContactModal;
+import org.testng.annotations.Listeners;
+import pages.*;
 
 import java.util.concurrent.TimeUnit;
 
+@Listeners(TestListener.class)
 public class BaseTest {
     WebDriver driver;
     AccountListPage accountListPage;
+    ContactListPage contactListPage;
     LoginPage loginPage;
+    HomePage homePage;
+
     NewAccountModal accountModal;
     NewContactModal contactModal;
 
-    String password = "200592zz";
-    String login = "demonita91-bjmx@force.com";
+    public static final String PASSWORD = "200592zz";
+    public static final String LOGIN = "demonita91-bjmx@force.com";
 
     @BeforeMethod
     public void setup() {
@@ -28,16 +31,20 @@ public class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         driver = new ChromeDriver(options);
-
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         loginPage = new LoginPage(driver);
         accountListPage = new AccountListPage(driver);
+        contactListPage = new ContactListPage(driver);
+        homePage =new HomePage(driver);
+
+
         accountModal = new NewAccountModal(driver);
         contactModal = new NewContactModal(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser() {
         driver.quit();
     }

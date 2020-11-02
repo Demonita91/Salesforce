@@ -1,5 +1,7 @@
 package pages;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -30,11 +32,13 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public LoginPage login(String username, String password){
+    @Step("Login")
+    @Description("Login and go to Home page")
+    public HomePage login(String username, String password){
         driver.findElement(USERNAME).sendKeys(username);
         driver.findElement(PASSWORD).sendKeys(password);
         driver.findElement(LOGIN_BUTTON).click();
-        return this;
+        return new HomePage(driver);
     }
 
 }

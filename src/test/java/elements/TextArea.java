@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class TextArea {
     WebDriver driver;
     String label;
-    String locator = "//*[contains(text(),'Description')]/ancestor::div[contains(@class, 'uiInputTextArea ')]//textarea";
+    String locator = "//*[contains(text(),'%s')]/ancestor::div[contains(@class, 'uiInputTextArea ')]//textarea";
 
     public TextArea(WebDriver driver, String label) {
         this.driver = driver;
